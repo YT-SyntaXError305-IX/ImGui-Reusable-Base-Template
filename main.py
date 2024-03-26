@@ -122,9 +122,10 @@ def render_imgui(impl, values):
         webbrowser.open("https://www.youtube.com/@ChrisFayte?sub_confirmation=1")
     
     if Instant_Kill_Flag:
-        process.write_int(DamagePointer, 333333)
+        process.write_bytes(InstantKillAddress, b"\x48\xB8\x00\x00\x00\x00\x00\x00\x00\x00" ,10)
     else:
-        process.write_int(DamagePointer, 0)
+        process.write_bytes(InstantKillAddress, b"\x48\x8B\x83\xB8\x01\x00\x00" ,7)
+        process.write_bytes(InstantKillRAddress, b"\x48\x2B\xC5" ,3)
 
     if bypass_color_flag:
         process.write_bytes(BypassColorAddress, b"\x75\x1A" ,2)
