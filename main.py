@@ -115,7 +115,7 @@ def render_imgui(impl, values):
         webbrowser.open("https://www.youtube.com/channel/UCAXpJbKZC9G41TRl5yMRawQ?sub_confirmation=1")
 
     if imgui.button("Learn Everything About Game Hacking."):
-        webbrowser.open("https://www.youtube.com/channel/UCCMi6F5Ac3kQDfffWXQGZDw?sub_confirmation=1")
+        webbrowser.open("https://www.youtube.com/watch?v=9RxJmoHk-y8")
 
     imgui.text_colored("Cheat the game because it doesn't mind cheating you. ~ CTG", *color)
     if imgui.button("Learn Cheat Engine"):
