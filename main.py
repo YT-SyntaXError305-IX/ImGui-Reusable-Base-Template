@@ -120,6 +120,10 @@ def render_imgui(impl, values):
     imgui.text_colored("Cheat the game because it doesn't mind cheating you. ~ CTG", *color)
     if imgui.button("Learn Cheat Engine"):
         webbrowser.open("https://www.youtube.com/@ChrisFayte?sub_confirmation=1")
+        
+    if imgui.button("Learn More Cheat Engine / Reverse Engineering"):
+        webbrowser.open("www.youtube.com/@StephenChapman?sub_confirmation=1")
+        
     
     if Instant_Kill_Flag:
         process.write_bytes(InstantKillAddress, b"\x48\xB8\x00\x00\x00\x00\x00\x00\x00\x00" ,10)
