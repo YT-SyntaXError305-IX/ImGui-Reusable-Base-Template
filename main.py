@@ -16,10 +16,13 @@ process = pymem.Pymem("30XX.exe")
 LocalPlayerOffset = process.base_address + 0x99A260
 MainWeaponPointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x594])
 QWeaponPointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x1FA8])
+QDownWeaponPointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x1FC0])
 WWeaponPointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x1FAC])
+WDownWeaponPointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x1FA8])
 EWeaponPointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x1FB0])
+EDownWeaponPointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x1FC8])
 DamagePointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x610])
-LightningPointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x640])
+PowerDamagePointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x640])
 SpeedPointer = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x5F8])
 HealthAddress = process.base_address + 0x43E107
 EnergyAddress = process.base_address + 0x4E6D3B
@@ -27,8 +30,12 @@ InstantKillAddress = process.base_address + 0x4E6355
 InstantKillRAddress = process.base_address + 0x4E635C
 ColorCyclePointer = process.base_address + 0x49A037C
 BypassColorAddress = process.base_address + 0x408A86  
+MemoriaAddress = process.base_address + 0x99A078
+ComboAddress = process.base_address + 0x5425EB
+ComboRAddress = process.base_address + 0x5425EF
 
-addresses = [MainWeaponPointer, QWeaponPointer, WWeaponPointer, EWeaponPointer]
+
+addresses = [MainWeaponPointer, QWeaponPointer, QDownWeaponPointer, WWeaponPointer, WDownWeaponPointer, EWeaponPointer, EDownWeaponPointer, SpeedPointer, PowerDamagePointer, DamagePointer, MemoriaAddress]
 original_values = [process.read_int(address) for address in addresses]
 values_set_to_zero = [False] * len(addresses)
 
@@ -42,6 +49,7 @@ bypass_color_flag = False
 Unlimited_Energy_Flag = False
 God_Mode_Flag = False
 Instant_Kill_Flag = False
+Unlimited_Combo_Flag = False
 
 def toggle_bypass_color_flag():
     global bypass_color_flag
@@ -58,6 +66,10 @@ def toggle_god_mode():
 def toggle_instant_kill():
     global Instant_Kill_Flag
     Instant_Kill_Flag = not Instant_Kill_Flag
+
+def toggle_Unlimited_Combo():
+    global Unlimited_Combo_Flag
+    Unlimited_Combo_Flag = not Unlimited_Combo_Flag
 
 def render_imgui(impl, values):
     imgui.new_frame()
@@ -110,6 +122,13 @@ def render_imgui(impl, values):
 
     if imgui.button("Instant-Kill"):
         toggle_instant_kill()
+    
+    
+    if imgui.button("Unlimited-Combo"):
+        toggle_Unlimited_Combo()
+
+    if imgui.button("Fly-Hack"):
+        print("Fly-Hack-Place-Holder")
 
     if imgui.button("The Mod Menu Maintainer's YouTube Channel"):
         webbrowser.open("https://www.youtube.com/channel/UCAXpJbKZC9G41TRl5yMRawQ?sub_confirmation=1")
@@ -145,6 +164,12 @@ def render_imgui(impl, values):
         process.write_bytes(HealthAddress, b"\x90\x90\x90" ,3)
     else:
         process.write_bytes(HealthAddress, b"\x48\x2B\xCF" ,3)  
+
+    if Unlimited_Combo_Flag:
+        process.write_bytes(ComboAddress, b"\xC7\x43\x1C\x35\x82\x00\x00", 7)
+    else:
+        process.write_bytes(ComboAddress, b"\x44\x8B\x7B\x1C", 4)
+        process.write_bytes(ComboRAddress, b"\xC6\x05\xF1", 3)
 
     imgui.end()
 
