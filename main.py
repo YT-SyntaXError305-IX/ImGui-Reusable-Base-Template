@@ -5,6 +5,8 @@ import imgui  # Dear ImGui for GUI
 from imgui.integrations.glfw import GlfwRenderer  # Dear ImGui renderer for GLFW
 import pymem  # Pymem for memory manipulation
 
+
+#Left Barony stuff as a working example
 # Initialize pymem process for "Barony.exe" and calculate address for memory manipulation
 process = pymem.Pymem("Barony.exe")
 RapidAddress = process.base_address + 0x1C0AE4
