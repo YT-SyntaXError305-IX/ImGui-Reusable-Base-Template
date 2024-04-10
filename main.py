@@ -10,7 +10,8 @@ import pymem  # Pymem for memory manipulation
 # Initialize pymem process for "Barony.exe" and calculate address for memory manipulation
 process = pymem.Pymem("Barony.exe")
 RapidAddress = process.base_address + 0x1C0AE4
-
+LocalPlayerOffset = process.base_address + 0x8E5B40
+LocalPlayerHealth = utility.FindDMAAddy(process.process_handle, LocalPlayerOffset, [0x140])
 # Function to initialize Dear ImGui
 def init_imgui(window):
     imgui.create_context()  # Create Dear ImGui context
